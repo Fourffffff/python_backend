@@ -5,6 +5,7 @@ from sqlalchemy.orm import Session
 from core.redis import r
 from models.Models import UserModels
 from schemas.UserSchemas import *
+from schemas.OutSch import Response
 from utils.emailUtils import send_email_code
 
 
@@ -36,6 +37,6 @@ def register(req,db: Session):
 def login(user:LoginRe, db:Session):
     if(db.query(UserModels).filter(UserModels.email==user.email,
                                    UserModels.password==user.password)):
-        return "success"
+        return Response().success()
     else:
         return "fail"
