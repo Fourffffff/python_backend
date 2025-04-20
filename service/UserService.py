@@ -35,8 +35,12 @@ def register(req,db: Session):
 
 
 def login(user:LoginRe, db:Session):
-    if(db.query(UserModels).filter(UserModels.email==user.email,
-                                   UserModels.password==user.password)):
-        return Response().success()
+    user1=(db.query(UserModels).filter(UserModels.email==user.email,
+                                   UserModels.password==user.password)).first()
+    if user1:
+        return Response().success(user1.id)
     else:
-        return "fail"
+        if not (db.query(UserModels).filter(UserModels.email==user.email)).first():
+            return Response().fail("该邮箱未注册")
+        else:
+            return Response().fail("密码错误")
