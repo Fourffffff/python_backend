@@ -1,8 +1,9 @@
 # main.py
 from fastapi import FastAPI
 from starlette.middleware.cors import CORSMiddleware
+from starlette.staticfiles import StaticFiles
 
-from routers import UserRouters
+from routers import UserRouters, NoteRouters
 
 app = FastAPI()
 app.add_middleware(
@@ -12,5 +13,6 @@ app.add_middleware(
     allow_methods=["*"],  # 允许所有请求方法，如 GET、POST 等
     allow_headers=["*"],  # 允许所有请求头
 )
-# 注册 user 路由，所有路径都以 /api 开头
+app.mount("/images", StaticFiles(directory="./bucket/images"), name="images")
 app.include_router(UserRouters.router, prefix="/user", tags=["User"])
+app.include_router(NoteRouters.router, prefix="/note", tags=["Notes"])

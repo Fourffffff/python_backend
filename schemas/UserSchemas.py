@@ -5,9 +5,6 @@ from pydantic import BaseModel, EmailStr
 class UserOut(BaseModel):
     name: str
     age: int
-
-    class Config:
-        orm_mode = True  # 支持从 ORM 对象读取数据（比如 User 实例）
 # 请求验证码模型
 class EmailRequest(BaseModel):
     email: EmailStr
