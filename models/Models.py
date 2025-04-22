@@ -38,3 +38,24 @@ class NoteCommentModel(Base):
     id_note = Column(Integer, ForeignKey("note.id"))
     content=Column(String(255))
     time=Column(DateTime)
+
+class JudgeModel(Base):
+    __tablename__='judge'
+    id=Column(Integer,autoincrement=True,primary_key=True)
+    name=Column(String(50))
+    description=Column(String(255))
+    type=Column(String(50))
+    star1=Column(Integer)
+    star2=Column(Integer)
+    star3=Column(Integer)
+    star4=Column(Integer)
+    star5=Column(Integer)
+
+class JudgeCommentModel(Base):
+    __tablename__='judgecomment'
+    id=Column(Integer,autoincrement=True,primary_key=True)
+    id_user = Column(Integer, ForeignKey("account.id"))
+    id_judge = Column(Integer, ForeignKey("judge.id"))
+    content=Column(String(255))
+    score=Column(Integer)
+    time=Column(DateTime)

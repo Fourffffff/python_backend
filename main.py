@@ -3,7 +3,7 @@ from fastapi import FastAPI
 from starlette.middleware.cors import CORSMiddleware
 from starlette.staticfiles import StaticFiles
 
-from routers import UserRouters, NoteRouters
+from routers import UserRouters, NoteRouters, JudgeRouters
 
 app = FastAPI()
 app.add_middleware(
@@ -15,4 +15,5 @@ app.add_middleware(
 )
 app.mount("/images", StaticFiles(directory="./bucket/images"), name="images")
 app.include_router(UserRouters.router, prefix="/user", tags=["User"])
-app.include_router(NoteRouters.router, prefix="/note", tags=["Notes"])
+app.include_router(NoteRouters.router, prefix="/note", tags=["Note"])
+app.include_router(JudgeRouters.router, prefix="/judge", tags=["Judge"])

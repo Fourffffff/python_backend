@@ -66,7 +66,8 @@ def get_one(userId, noteId, db:Session):
                 "title": note.title,
                 "content": note.content,
                 "time": note.time,
-                "author_id": note.author_id
+                "author_id": note.author_id,
+                "images":note.images
             },
             "isliked": isliked,
             "isfav": isfav,
