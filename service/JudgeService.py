@@ -39,3 +39,11 @@ def get_comments(id, db:Session):
         res.append(temp)
     print(res)
     return Response.success(res)
+
+
+def get_types(db:Session):
+    types=db.query(TypeModel).all()
+    res=[]
+    for type in types:
+        res.append(JudgeTypeSche.from_orm(type).dict())
+    return Response.success(res)

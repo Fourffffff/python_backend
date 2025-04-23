@@ -22,3 +22,7 @@ def get_one(id,db:Session=Depends(get_db)):
 def get_comments(id,db:Session=Depends(get_db)):
     print("get comments: ",id)
     return JudgeService.get_comments(id,db)
+
+@router.get("/get_types")
+def get_types(db:Session=Depends(get_db)):
+    return JudgeService.get_types(db)

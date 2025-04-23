@@ -15,9 +15,9 @@ class NoteModel(Base):
     title=Column(String(255))
     content=Column(String(255))
     time=Column(DateTime)
+    images=Column(JSON)
     likes=Column(Integer)
     favs=Column(Integer)
-    images=Column(JSON)
 
 class LikeModel(Base):
     __tablename__='like'
@@ -44,7 +44,7 @@ class JudgeModel(Base):
     id=Column(Integer,autoincrement=True,primary_key=True)
     name=Column(String(50))
     description=Column(String(255))
-    type=Column(String(50))
+    type=Column(String(50),ForeignKey("type1.typename"))
     star1=Column(Integer)
     star2=Column(Integer)
     star3=Column(Integer)
@@ -59,3 +59,8 @@ class JudgeCommentModel(Base):
     content=Column(String(255))
     score=Column(Integer)
     time=Column(DateTime)
+
+class TypeModel(Base):
+    __tablename__="type1"
+    typename=Column(String(255),primary_key=True)
+    image=Column(String(255))

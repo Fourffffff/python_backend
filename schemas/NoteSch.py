@@ -2,6 +2,7 @@ from typing import List
 from datetime import time, datetime
 
 from pydantic import BaseModel
+from typing import Optional
 
 
 class postRe(BaseModel):
@@ -16,9 +17,13 @@ class NotesResponse(BaseModel):
     title: str
     content: str
     time: datetime
-    likes: int
-    favs: int
+    likes:Optional[int]=0
+    favs: Optional[int]=0
     images: list
 
     class Config:
         from_attributes = True
+
+class lfReq(BaseModel):
+    id_user:int
+    id_note:int

@@ -12,7 +12,7 @@ def note_add(req:postRe, db:Session):
         author_id=req.id,
         title=req.title,
         content=req.content,
-        time=datetime.now().time(),  # 或 datetime.now() 如果你用 DateTime 类型
+        time=datetime.now(),
         likes=0,
         favs=0,
         images=req.images
@@ -35,8 +35,8 @@ def get_all(id,db:Session):
         "title": note.title,
         "content": note.content,
         "time": note.time,
-        "likes": note.likes,
-        "favs": note.favs,
+        "likes":db.query(LikeModel).filter_by(id_note=note.id).count(),
+        "favs": db.query(FavModel).filter_by(id_note=note.id).count(),
         "images": note.images,
         "username":username,  # 使用查询结果中的用户名
         "isliked":db.query(LikeModel).filter_by(id_user=id, id_note=note.id).first() is not None,
@@ -49,13 +49,16 @@ def get_one(userId, noteId, db:Session):
     isliked=db.query(LikeModel).filter_by(id_user=userId, id_note=note.id).first() is not None
     isfav=db.query(FavModel).filter_by(id_user=userId, id_note=note.id).first() is not None
     comments=db.query(NoteCommentModel).filter_by(id_note=noteId).all()
+    likes=db.query(LikeModel).filter_by(id_note=noteId).count()
+    favs=db.query(FavModel).filter_by(id_note=noteId).count()
     comments_list = [
         {
             "id": comment.id,
             "username": db.query(UserModels).filter_by(id=comment.id_user).first().username,
             "id_note": comment.id_note,
             "content":comment.content,
-            "time": comment.time
+            "time": comment.time,
+            "avatarUrl":"http://localhost:8000/images/2ad0067ee4e34fef9b59c958f81f3051.jpg"
         }
         for comment in comments
     ]
@@ -67,10 +70,38 @@ def get_one(userId, noteId, db:Session):
                 "content": note.content,
                 "time": note.time,
                 "author_id": note.author_id,
-                "images":note.images
+                "images":note.images,
+                "likes":likes,
+                "favs":favs
             },
             "isliked": isliked,
             "isfav": isfav,
             "comments": comments_list  # 这里是已经转换为字典的评论数据
         }
     )
+
+
+def like(req:lfReq,db:Session):
+    likeojb = LikeModel(**req.dict(), time=datetime.now())
+    like_temp=db.query(LikeModel).filter_by(id_user=likeojb.id_user,id_note=likeojb.id_note).first()
+    if(like_temp):
+        db.delete(like_temp)
+        db.commit()
+        return Response.success("unlike")
+    else:
+        db.add(likeojb)
+        db.commit()
+        return Response.success("like")
+
+
+def fav(req, db):
+    likeojb = FavModel(**req.dict(), time=datetime.now())
+    like_temp = db.query(FavModel).filter_by(id_user=likeojb.id_user, id_note=likeojb.id_note).first()
+    if (like_temp):
+        db.delete(like_temp)
+        db.commit()
+        return Response.success("unfav")
+    else:
+        db.add(likeojb)
+        db.commit()
+        return Response.success("fav")

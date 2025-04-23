@@ -31,3 +31,9 @@ class JudgeCommentSchema(BaseModel):
 
     class Config:
         from_attributes = True  # 适配 SQLAlchemy ORM 模型（Pydantic v2 用法）
+
+class JudgeTypeSche(BaseModel):
+    typename:str
+    image:str
+    class Config:
+        from_attributes=True

@@ -47,3 +47,13 @@ def note_get_all(id:int, db:Session=Depends(get_db)):
 def note_get_one(userId:int,noteId:int,db:Session=Depends(get_db)):
     print("get_one: ",userId," ",noteId)
     return NoteService.get_one(userId,noteId,db)
+
+@router.post("/like")
+def like(req:lfReq,db:Session=Depends(get_db)):
+    print("like:",req.id_user,req.id_note)
+    return NoteService.like(req,db)
+
+@router.post("/fav")
+def fav(req:lfReq,db:Session=Depends(get_db)):
+    print("fav:",req.id_user,req.id_note)
+    return NoteService.fav(req,db)
