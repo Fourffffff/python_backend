@@ -57,10 +57,17 @@ class JudgeCommentModel(Base):
     id_user = Column(Integer, ForeignKey("account.id"))
     id_judge = Column(Integer, ForeignKey("judge.id"))
     content=Column(String(255))
-    score=Column(Integer)
     time=Column(DateTime)
 
 class TypeModel(Base):
     __tablename__="type1"
     typename=Column(String(255),primary_key=True)
     image=Column(String(255))
+
+class FavJudgeModel(Base):
+    __tablename__="favjudge"
+    id_user=Column(Integer,ForeignKey("account.id"),primary_key=True)
+    id_judge=Column(Integer,ForeignKey("judge.id"), primary_key=True)
+    score=Column(Integer)
+    time=Column(DateTime)
+    islike=Column(Boolean)

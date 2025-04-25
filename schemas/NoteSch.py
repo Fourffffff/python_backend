@@ -27,3 +27,8 @@ class NotesResponse(BaseModel):
 class lfReq(BaseModel):
     id_user:int
     id_note:int
+
+class CommentReq(BaseModel):
+    id_judge:int
+    id_user:int
+    content:str

@@ -105,3 +105,9 @@ def fav(req, db):
         db.add(likeojb)
         db.commit()
         return Response.success("fav")
+
+
+def comment_post(req:CommentReq, db:Session):
+    model=NoteCommentModel(**req.dict(),time=datetime.now())
+    db.add(model)
+    return Response.success()

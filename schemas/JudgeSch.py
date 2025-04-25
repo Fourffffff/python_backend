@@ -15,6 +15,8 @@ class JudgeSchema(BaseModel):
     star5:int
     rank: Optional[int] = 0  # ✅ 改为可选
     score: Optional[float] = 0 # ✅ 改为可选
+    myscore:Optional[int]=0
+    islike:Optional[bool]=False
 
     class Config:
         from_attributes = True
@@ -24,7 +26,6 @@ class JudgeCommentSchema(BaseModel):
     id_user: int
     id_judge: int
     content: str
-    score: int
     time: datetime
     username:Optional[str]=None
 
@@ -37,3 +38,17 @@ class JudgeTypeSche(BaseModel):
     image:str
     class Config:
         from_attributes=True
+
+class RateReq(BaseModel):
+    id_user:int
+    id_judge:int
+    score:int
+
+class LikeReq(BaseModel):
+    id_user:int
+    id_judge:int
+
+class CommentReq(BaseModel):
+    id_judge:int
+    id_user:int
+    content:str
