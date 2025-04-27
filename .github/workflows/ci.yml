@@ -33,6 +33,10 @@ jobs:
             echo "requirements.txt not found, skipping dependency installation."
           fi
 
+      - name: List installed packages
+        run: |
+          pip list
+
       - name: Run tests
         run: |
           if [ -d tests ]; then
