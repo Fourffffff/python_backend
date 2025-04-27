@@ -37,7 +37,7 @@ jobs:
         run: |
           pip list
       - name: Change directory to project root
-        run: cd python_backend
+        run: cd ..
 
       - name: Run tests
         run: pytest
