@@ -28,13 +28,11 @@ jobs:
             echo "requirements.txt not found, skipping dependency installation."
           fi
 
-      - name: Initialize Database
+      - name: Init Database
         run: |
-          if [ -f scripts/init_db.py ]; then
-            python scripts/init_db.py
-          else
-            echo "scripts/init_db.py not found, skipping database initialization."
-          fi
+          cd python_backend
+          python scripts/init_db.py
+
 
       - name: Run tests
         run: |
