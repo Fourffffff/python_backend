@@ -29,6 +29,6 @@ class lfReq(BaseModel):
     id_note:int
 
 class CommentReq(BaseModel):
-    id_judge:int
+    id_note:int
     id_user:int
     content:str

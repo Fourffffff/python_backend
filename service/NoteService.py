@@ -110,4 +110,5 @@ def fav(req, db):
 def comment_post(req:CommentReq, db:Session):
     model=NoteCommentModel(**req.dict(),time=datetime.now())
     db.add(model)
+    db.commit()
     return Response.success()
