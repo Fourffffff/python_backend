@@ -37,6 +37,11 @@ jobs:
         run: |
           pip list
 
+      - name: Initialize Database
+        run: |
+          python scripts/init_db.py
+      
+
       - name: Run tests
         run: |
           if [ -d tests ]; then

@@ -2,8 +2,7 @@ from fastapi import APIRouter, UploadFile, File, Depends
 from sqlalchemy.orm import Session
 
 from core.database import get_db
-from schemas.JudgeSch import RateReq, LikeReq
-from schemas.NoteSch import *
+from schemas.JudgeSch import *
 from schemas.OutSch import Response
 from service import JudgeService
 
