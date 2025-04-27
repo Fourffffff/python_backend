@@ -36,6 +36,12 @@ jobs:
       - name: List installed packages
         run: |
           pip list
+      - name: Change directory to project root
+        run: cd python_backend
+
+      - name: Run tests
+        run: pytest
+
 
       - name: Initialize Database
         run: |
