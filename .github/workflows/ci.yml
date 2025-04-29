@@ -26,4 +26,4 @@ jobs:
 
       - name: Run test1
         run: |
-          pytest testsl
+          pytest testl
