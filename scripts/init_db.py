@@ -12,7 +12,7 @@ def init_db():
 
     try:
         # 添加一个测试用户
-        user = UserModels(username="testuser", email="test1@example.com", password="123456")
+        user = UserModels(username="testuser", email="test@example.com", password="123456")
         db.add(user)
         db.commit()
         db.refresh(user)

@@ -24,6 +24,6 @@ jobs:
           python -m pip install --upgrade pip
           pip install pytest
 
-      - name: Run test1
+      - name: Run testl
         run: |
-          pytest testl
+          pytest test1
