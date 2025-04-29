@@ -41,6 +41,7 @@ def get_all(id,db:Session):
         "username":username,  # 使用查询结果中的用户名
         "isliked":db.query(LikeModel).filter_by(id_user=id, id_note=note.id).first() is not None,
         "isfav":db.query(FavModel).filter_by(id_user=id, id_note=note.id).first() is not None,
+        "avatarUrl":db.query(UserModels).filter_by(id=note.author_id).first().avatar
     } for note,username in notes])
 
 
@@ -58,7 +59,7 @@ def get_one(userId, noteId, db:Session):
             "id_note": comment.id_note,
             "content":comment.content,
             "time": comment.time,
-            "avatarUrl":"http://localhost:8000/images/2ad0067ee4e34fef9b59c958f81f3051.jpg"
+            "avatarUrl":db.query(UserModels).filter_by(id=comment.id_user).first().avatar
         }
         for comment in comments
     ]

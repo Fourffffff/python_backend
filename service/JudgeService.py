@@ -48,6 +48,8 @@ def get_comments(id, db:Session):
         temp['username']=db.query(UserModels.username).filter_by(id=temp['id_user']).first()[0]
         print("id and user",id,temp['id_user'])
         temp['score']=db.query(FavJudgeModel.score).filter_by(id_judge=id,id_user=temp['id_user']).first()[0]
+        temp['avatarUrl']=db.query(UserModels.avatar).filter_by(id=temp['id_user']).first()[0]
+
         res.append(temp)
     print(res)
     return Response.success(res)

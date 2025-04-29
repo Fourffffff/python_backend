@@ -18,3 +18,7 @@ class RegisterRequest(BaseModel):
 class LoginRe(BaseModel):
     email:EmailStr
     password:str
+
+class AvatarReq(BaseModel):
+    id:int
+    avatar:str

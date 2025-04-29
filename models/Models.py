@@ -7,6 +7,7 @@ class UserModels(Base):
     username=Column(String(255))
     email=Column(String(255))
     password=Column(String(255))
+    avatar=Column(String(255))
 
 class NoteModel(Base):
     __tablename__='note'

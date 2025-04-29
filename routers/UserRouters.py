@@ -19,3 +19,14 @@ def login(user:LoginRe,db:Session=Depends(get_db)):
     print(f"login:{user}")
     return service.login(user,db)
 
+@router.get("/get_avatar")
+def get_avatar(id:int,db:Session=Depends(get_db)):
+    return service.get_avatar(id,db)
+
+@router.get("/get_username")
+def get_username(id:int,db:Session=Depends(get_db)):
+    return service.get_username(id,db)
+
+@router.post("/avatar_update")
+def avatar_update(avatarReq:AvatarReq,db:Session=Depends(get_db)):
+    return service.avatar_update(avatarReq,db)

@@ -60,5 +60,4 @@ def fav(req:lfReq,db:Session=Depends(get_db)):
 
 @router.post("/comment_post")
 def comment_post(req:CommentReq,db:Session=Depends(get_db)):
-    print(req)
     return NoteService.comment_post(req,db)
