@@ -3,6 +3,9 @@ from fastapi.testclient import TestClient
 from unittest.mock import patch
 from main import app  # 注意替换为你实际的 FastAPI 应用
 from schemas.OutSch import Response
+import sys
+import os
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "../../..")))
 
 # 如果你是从 APIRouter 注册到 app 的，请确保 app 是完整注册后的
 
