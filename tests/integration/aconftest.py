@@ -14,7 +14,7 @@ def init_db():
     # 添加初始用户
     user = UserModels(
         username="testuser",
-        email="test@example.com",
+        email="tests@example.com",
         password="testpassword"  # 这里是明文，如果你正式逻辑用加密，测试也要加密
     )
     db.add(user)
