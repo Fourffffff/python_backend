@@ -2,9 +2,12 @@
 from fastapi.testclient import TestClient
 from unittest.mock import patch
 from main import app  # 注意替换为你实际的 FastAPI 应用
+from schemas import UserSchemas
 from schemas.OutSch import Response
 import sys
 import os
+from crud.UserCrud import *
+
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "../../../")))
 
 # 如果你是从 APIRouter 注册到 app 的，请确保 app 是完整注册后的
@@ -31,3 +34,8 @@ def test_get_username(mock_get_username):
     mock_get_username.assert_called_once()
     called_args = mock_get_username.call_args[0]  # 获取位置参数
     assert called_args[0] == 1  # 第一个参数是 id
+@patch("crud.UserCrud.get_user")
+@patch("crud.UserCrud.get_user_byemail")
+def test_login(mock1,mock2):
+    user=UserSchemas.UserOut
+    mock1.return_value=Response.success("")

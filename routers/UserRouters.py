@@ -1,6 +1,7 @@
 from fastapi import APIRouter,Depends
 from sqlalchemy.orm import Session
 from core.database import get_db
+from dependencis import get_current_user_id
 from schemas.UserSchemas import *
 import service.UserService as service
 
@@ -20,11 +21,12 @@ def login(user:LoginRe,db:Session=Depends(get_db)):
     return service.login(user,db)
 
 @router.get("/get_avatar")
-def get_avatar(id:int,db:Session=Depends(get_db)):
+def get_avatar(id: int = Depends(get_current_user_id),db:Session=Depends(get_db)):
     return service.get_avatar(id,db)
 
 @router.get("/get_username")
-def get_username(id:int,db:Session=Depends(get_db)):
+def get_username(id: str= Depends(get_current_user_id),db:Session=Depends(get_db)):
+    print("get_username: ",id)
     return service.get_username(id,db)
 
 @router.post("/avatar_update")

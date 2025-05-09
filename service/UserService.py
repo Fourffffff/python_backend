@@ -1,9 +1,11 @@
 import os
 import random
-
+from utils.securityUtils import hash_password, verify_password
+from utils.verifyUtils import *
 from fastapi import HTTPException
 from sqlalchemy.orm import Session
 from core.redis import r
+from crud import UserCrud
 from models.Models import UserModels
 from routers.NoteRouters import UPLOAD_DIR
 from schemas.UserSchemas import *
@@ -28,7 +30,7 @@ def register(req,db: Session):
     r.delete(f"code:{req.email}")  # 用完就删除验证码
     user = UserModels(
         email=req.email,
-        password=req.password,
+        password=hash_password(req.password),
         username="Null"
     )
     db.add(user)
@@ -37,23 +39,28 @@ def register(req,db: Session):
 
 
 def login(user:LoginRe, db:Session):
-    user1=(db.query(UserModels).filter(UserModels.email==user.email,
-                                   UserModels.password==user.password)).first()
-    if user1:
-        return Response().success(user1.id)
+    user1=UserCrud.get_user_byemail(user,db)
+    print("user1",user1)
+    print(user1.password)
+    if verify_password(user.password, user1.password):
+        token = create_access_token({"sub": str(user1.id)}, timedelta(minutes=60))
+        print("token", token)
+        return Response().success(token)
     else:
-        if not (db.query(UserModels).filter(UserModels.email==user.email)).first():
+        if not UserCrud.get_user_byemail(user,db):
             return Response().fail("该邮箱未注册")
+
+
         else:
             return Response().fail("密码错误")
 
 
 def get_avatar(id, db:Session):
-    avatar=db.query(UserModels).filter_by(id=id).first().avatar
+    avatar=UserCrud.get_avatar(id,db)
     return Response.success(avatar)
 
 def get_username(id,db:Session):
-    username=db.query(UserModels).filter_by(id=id).first().username
+    username=UserCrud.get_username(id,db)
     return Response.success(username)
 
 

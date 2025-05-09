@@ -1,8 +1,3 @@
-from fastapi.testclient import TestClient
-from main import app
-client = TestClient(app)
+from utils.securityUtils import hash_password
 
-def test1():
-    response = client.get("/hello")
-    assert response.status_code == 200
-    print(response.json())
+print(hash_password("password123"))
