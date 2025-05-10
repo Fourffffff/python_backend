@@ -1,4 +1,4 @@
-from fastapi import APIRouter,Depends
+from fastapi import APIRouter, Depends, Body
 from sqlalchemy.orm import Session
 from core.database import get_db
 from dependencis import get_current_user_id
@@ -30,5 +30,5 @@ def get_username(id: str= Depends(get_current_user_id),db:Session=Depends(get_db
     return service.get_username(id,db)
 
 @router.post("/avatar_update")
-def avatar_update(avatarReq:AvatarReq,db:Session=Depends(get_db)):
-    return service.avatar_update(avatarReq,db)
+def avatar_update(avatarReq: AvatarReq,id:str= Depends(get_current_user_id),db:Session=Depends(get_db)):
+    return service.avatar_update(avatarReq,id,db)

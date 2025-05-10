@@ -63,8 +63,8 @@ def get_types(db:Session):
     return Response.success(res)
 
 
-def rate(req:RateReq, db:Session):
-    rateobj=db.query(FavJudgeModel).filter_by(id_user=req.id_user,id_judge=req.id_judge).first()
+def rate(req:RateReq,id_user, db:Session):
+    rateobj=db.query(FavJudgeModel).filter_by(id_user=id_user,id_judge=req.id_judge).first()
     judgeobj = db.query(JudgeModel).filter_by(id=req.id_judge).first()
 
     if rateobj:
@@ -111,23 +111,24 @@ def rate(req:RateReq, db:Session):
     return Response.success()
 
 
-def like(req, db:Session):
-    rateobj = db.query(FavJudgeModel).filter_by(id_user=req.id_user, id_judge=req.id_judge).first()
+def like(req,id_user, db:Session):
+    rateobj = db.query(FavJudgeModel).filter_by(id_user=id_user, id_judge=req.id_judge).first()
     if rateobj:
         rateobj.islike = 1-rateobj.islike
         db.commit()
     else:
-        model = FavJudgeModel(**req.dict(), time=datetime.now(), islike=1,score=0)
+        model = FavJudgeModel(**req.dict(), id_user=id_user,time=datetime.now(), islike=1,score=0)
         db.add(model)
         db.commit()
     return Response.success()
 
 
-def comment_post(req:CommentReq, db:Session):
-    rateobj = db.query(FavJudgeModel).filter_by(id_user=req.id_user, id_judge=req.id_judge).first()
+def comment_post(req:CommentReq,id_user, db:Session):
+    rateobj = db.query(FavJudgeModel).filter_by(id_user=id_user, id_judge=req.id_judge).first()
     if rateobj:
         model=JudgeCommentModel(
             **req.dict(),
+            id_user=id_user,
             time=datetime.now()
         )
         db.add(model)

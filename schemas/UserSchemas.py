@@ -20,5 +20,4 @@ class LoginRe(BaseModel):
     password:str
 
 class AvatarReq(BaseModel):
-    id:int
-    avatar:str
+    avatarUrl:str

@@ -1,14 +1,16 @@
 from typing import List
 from datetime import time, datetime
 
+from fastapi import Depends
 from pydantic import BaseModel
 from typing import Optional
+
+from dependencis import get_current_user_id
 
 
 class postRe(BaseModel):
     title:str
     content:str
-    id:int
     images:List[str]
 
 class NotesResponse(BaseModel):
@@ -25,10 +27,9 @@ class NotesResponse(BaseModel):
         from_attributes = True
 
 class lfReq(BaseModel):
-    id_user:int
     id_note:int
 
 class CommentReq(BaseModel):
     id_note:int
-    id_user:int
     content:str
+

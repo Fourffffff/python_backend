@@ -5,7 +5,6 @@ from utils.verifyUtils import *
 from fastapi import HTTPException
 from sqlalchemy.orm import Session
 from core.redis import r
-from crud import UserCrud
 from models.Models import UserModels
 from routers.NoteRouters import UPLOAD_DIR
 from schemas.UserSchemas import *
@@ -39,7 +38,7 @@ def register(req,db: Session):
 
 
 def login(user:LoginRe, db:Session):
-    user1=UserCrud.get_user_byemail(user,db)
+    user1=(db.query(UserModels).filter(UserModels.email == user.email)).first()
     print("user1",user1)
     print(user1.password)
     if verify_password(user.password, user1.password):
@@ -47,7 +46,7 @@ def login(user:LoginRe, db:Session):
         print("token", token)
         return Response().success(token)
     else:
-        if not UserCrud.get_user_byemail(user,db):
+        if not (db.query(UserModels).filter(UserModels.email == user.email)).first():
             return Response().fail("该邮箱未注册")
 
 
@@ -56,23 +55,23 @@ def login(user:LoginRe, db:Session):
 
 
 def get_avatar(id, db:Session):
-    avatar=UserCrud.get_avatar(id,db)
+    avatar=db.query(UserModels).filter_by(id=id).first().avatar
     return Response.success(avatar)
 
 def get_username(id,db:Session):
-    username=UserCrud.get_username(id,db)
+    username=db.query(UserModels).filter_by(id=id).first().username
     return Response.success(username)
 
 
-def avatar_update(avatarReq:AvatarReq, db:Session):
-    user=db.query(UserModels).filter_by(id=avatarReq.id).first()
+def avatar_update(avatarReq,id, db:Session):
+    user=db.query(UserModels).filter_by(id=id).first()
     # 删除旧头像（如果不是默认头像）
     if user.avatar and "localhost:8000/images/" in user.avatar:
         old_filename = user.avatar.split("/")[-1]
         old_path = os.path.join(UPLOAD_DIR, old_filename)
         if os.path.exists(old_path):
             os.remove(old_path)
-    user.avatar=avatarReq.avatar
+    user.avatar=avatarReq.avatarUrl
 
     db.commit()
     return Response.success()

@@ -2,6 +2,7 @@ from fastapi import APIRouter, UploadFile, File, Depends
 from sqlalchemy.orm import Session
 
 from core.database import get_db
+from dependencis import get_current_user_id
 from schemas.NoteSch import *
 from schemas.OutSch import Response
 import os
@@ -34,30 +35,28 @@ async def upload_img(file: UploadFile = File(...)):
     except Exception as e:
         return Response.fail(msg=str(e))
 @router.post("/note_post")
-def note_post(req:postRe,db:Session=Depends(get_db)):
+def note_post(req:postRe,id= Depends(get_current_user_id),db:Session=Depends(get_db)):
     print("note_post: ",req)
-    return NoteService.note_add(req,db)
+    return NoteService.note_add(req,id,db)
 
 @router.get("/get_all")
-def note_get_all(id:int, db:Session=Depends(get_db)):
+def note_get_all(id= Depends(get_current_user_id), db:Session=Depends(get_db)):
     print("get_all")
     return NoteService.get_all(id,db)
 
 @router.get("/get_one")
-def note_get_one(userId:int,noteId:int,db:Session=Depends(get_db)):
+def note_get_one(noteId:int,userId= Depends(get_current_user_id),db:Session=Depends(get_db)):
     print("get_one: ",userId," ",noteId)
     return NoteService.get_one(userId,noteId,db)
 
 @router.post("/like")
-def like(req:lfReq,db:Session=Depends(get_db)):
-    print("like:",req.id_user,req.id_note)
-    return NoteService.like(req,db)
+def like(req:lfReq,user_id=Depends(get_current_user_id),db:Session=Depends(get_db)):
+    return NoteService.like(req,user_id,db)
 
 @router.post("/fav")
-def fav(req:lfReq,db:Session=Depends(get_db)):
-    print("fav:",req.id_user,req.id_note)
-    return NoteService.fav(req,db)
+def fav(req:lfReq,user_id=Depends(get_current_user_id), db:Session=Depends(get_db)):
+    return NoteService.fav(req,user_id,db)
 
 @router.post("/comment_post")
-def comment_post(req:CommentReq,db:Session=Depends(get_db)):
-    return NoteService.comment_post(req,db)
+def comment_post(req:CommentReq,user_id=Depends(get_current_user_id), db:Session=Depends(get_db)):
+    return NoteService.comment_post(req,user_id,db)

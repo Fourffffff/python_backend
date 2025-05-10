@@ -7,9 +7,9 @@ from schemas.NoteSch import *
 from schemas.OutSch import Response
 
 
-def note_add(req:postRe, db:Session):
+def note_add(req:postRe,id, db:Session):
     new_note = NoteModel(
-        author_id=req.id,
+        author_id=id,
         title=req.title,
         content=req.content,
         time=datetime.now(),
@@ -82,8 +82,8 @@ def get_one(userId, noteId, db:Session):
     )
 
 
-def like(req:lfReq,db:Session):
-    likeojb = LikeModel(**req.dict(), time=datetime.now())
+def like(req:lfReq,user_id,db:Session):
+    likeojb = LikeModel(id_note=req.id_note,id_user=user_id, time=datetime.now())
     like_temp=db.query(LikeModel).filter_by(id_user=likeojb.id_user,id_note=likeojb.id_note).first()
     if(like_temp):
         db.delete(like_temp)
@@ -95,8 +95,8 @@ def like(req:lfReq,db:Session):
         return Response.success("like")
 
 
-def fav(req, db):
-    likeojb = FavModel(**req.dict(), time=datetime.now())
+def fav(req,user_id, db):
+    likeojb = FavModel(id_note=req.id_note,id_user=user_id, time=datetime.now())
     like_temp = db.query(FavModel).filter_by(id_user=likeojb.id_user, id_note=likeojb.id_note).first()
     if (like_temp):
         db.delete(like_temp)
@@ -108,8 +108,8 @@ def fav(req, db):
         return Response.success("fav")
 
 
-def comment_post(req:CommentReq, db:Session):
-    model=NoteCommentModel(**req.dict(),time=datetime.now())
+def comment_post(req:CommentReq, user_id,db:Session):
+    model=NoteCommentModel(**req.dict(),id_user=user_id, time=datetime.now())
     db.add(model)
     db.commit()
     return Response.success()

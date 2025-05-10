@@ -23,7 +23,7 @@ class JudgeSchema(BaseModel):
 
 class JudgeCommentSchema(BaseModel):
     id: int
-    id_user: int
+    id_user:int
     id_judge: int
     content: str
     time: datetime
@@ -40,15 +40,12 @@ class JudgeTypeSche(BaseModel):
         from_attributes=True
 
 class RateReq(BaseModel):
-    id_user:int
     id_judge:int
     score:int
 
 class LikeReq(BaseModel):
-    id_user:int
     id_judge:int
 
 class CommentReq(BaseModel):
     id_judge:int
-    id_user:int
     content:str
