@@ -60,3 +60,11 @@ def fav(req:lfReq,user_id=Depends(get_current_user_id), db:Session=Depends(get_d
 @router.post("/comment_post")
 def comment_post(req:CommentReq,user_id=Depends(get_current_user_id), db:Session=Depends(get_db)):
     return NoteService.comment_post(req,user_id,db)
+
+@router.get("/get_collection")
+def get_collection(user_id=Depends(get_current_user_id),db:Session=Depends(get_db)):
+    return NoteService.get_collection(user_id,db)
+
+@router.get("/get_mynotes")
+def get_mynotes(user_id=Depends(get_current_user_id),db:Session=Depends(get_db)):
+    return NoteService.get_mynotes(user_id,db)

@@ -75,3 +75,16 @@ def avatar_update(avatarReq,id, db:Session):
 
     db.commit()
     return Response.success()
+
+
+def password_update(passwordReq, id, db:Session):
+    user=db.query(UserModels).filter_by(id=id).first()
+    if not verify_password(passwordReq.old, user.password):
+        return Response.fail("旧密码错误")
+    elif passwordReq.password!=passwordReq.password1:
+        print("password:",passwordReq.password,' ',passwordReq.password1)
+        return Response.fail("两次输入密码不一致")
+    else:
+        user.password=hash_password(passwordReq.password)
+        db.commit()
+        return Response.success()

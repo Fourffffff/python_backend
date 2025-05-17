@@ -21,3 +21,8 @@ class LoginRe(BaseModel):
 
 class AvatarReq(BaseModel):
     avatarUrl:str
+
+class PasswordReq(BaseModel):
+    old:str
+    password:str
+    password1:str
