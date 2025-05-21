@@ -5,7 +5,7 @@ from main import app
 from models.Models import NoteModel
 from routers import NoteRouters
 from dependencis import get_current_user_id  # 正确引用依赖函数
-
+import os
 client = TestClient(app)
 
 # 创建 mock db 并替代 get_db
@@ -23,7 +23,10 @@ app.dependency_overrides[get_current_user_id] = override_get_current_user_id
 
 # 上传图片测试
 def test_upload_img():
-    with open("test_image.png", "rb") as f:
+    CURRENT_DIR = os.path.dirname(__file__)
+    IMAGE_PATH = os.path.join(CURRENT_DIR, "test_image.png")
+
+    with open(IMAGE_PATH, "rb") as f:
         response = client.post("/note/upload_img", files={"file": ("./test_image.jpg", f, "image/jpeg")})
     assert response.status_code == 200
     assert response.json()["code"] == 200
