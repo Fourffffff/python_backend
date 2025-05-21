@@ -24,7 +24,7 @@ app.dependency_overrides[get_current_user_id] = override_get_current_user_id
 # 上传图片测试
 def test_upload_img():
     with open("test_image.png", "rb") as f:
-        response = client.post("/note/upload_img", files={"file": ("test_image.jpg", f, "image/jpeg")})
+        response = client.post("/note/upload_img", files={"file": ("./test_image.jpg", f, "image/jpeg")})
     assert response.status_code == 200
     assert response.json()["code"] == 200
     assert "http://localhost:8000/images/" in response.json()["data"]
