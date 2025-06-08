@@ -34,7 +34,7 @@ def register(req,db: Session):
     )
     db.add(user)
     db.commit()
-    return {"msg": "注册成功"}
+    return Response.success()
 
 
 def login(user:LoginRe, db:Session):

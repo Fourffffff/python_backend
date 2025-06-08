@@ -95,7 +95,7 @@ def rate(req:RateReq,id_user, db:Session):
 
         db.commit()
     else:
-        model= FavJudgeModel(**req.dict(),time=datetime.now(),islike=0)
+        model= FavJudgeModel(**req.dict(),id_user=id_user  ,time=datetime.now(),islike=0)
         if req.score == 1:
             judgeobj.star1 += 1
         elif req.score == 2:
