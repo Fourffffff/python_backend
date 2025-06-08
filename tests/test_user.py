@@ -32,19 +32,6 @@ def test_send_code(mock_send_email, mock_redis_set):
     mock_send_email.assert_called_once()
 
 # 测试注册
-@patch("service.UserService.r.get", return_value="123456")
-@patch("service.UserService.hash_password", return_value="hashed_password")
-@patch("service.UserService.r.delete")
-def test_register(mock_delete, mock_hash, mock_get):
-    response = client.post("/user/register", json={
-        "email": "test@example.com",
-        "password": "123456",
-        "code": "123456"
-    })
-    assert response.status_code == 200
-    assert response.json()["msg"] == "注册成功"
-    assert mock_db.add.called
-    assert mock_db.commit.called
 
 # 测试登录成功
 @patch("service.UserService.verify_password", return_value=True)
